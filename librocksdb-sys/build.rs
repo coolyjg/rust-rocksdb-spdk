@@ -87,6 +87,7 @@ fn build_rocksdb() {
     config.include("rocksdb/include/");
     config.include("rocksdb/");
     config.include("rocksdb/third-party/gtest-1.8.1/fused-src/");
+    config.include("spdk/build/include");
 
     if cfg!(feature = "snappy") {
         config.define("SNAPPY", Some("1"));

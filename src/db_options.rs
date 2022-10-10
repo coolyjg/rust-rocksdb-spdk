@@ -13,6 +13,7 @@
 // limitations under the License.
 
 use std::ffi::CStr;
+use std::ffi::CString;
 use std::path::Path;
 use std::sync::Arc;
 

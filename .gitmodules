@@ -5,3 +5,7 @@
 	path = librocksdb-sys/spdk
 	url = https://github.com/coolyjg/spdk
 	branch = 7.4.5-integration
+[submodule "rocksdb_sys/rocksdb"]
+	path = librocksdb-sys/rocksdb
+	url = https://github.com/coolyjg/rocksdb
+	branch = spdk22.05
