@@ -116,6 +116,60 @@ impl Env {
         }
     }
 
+    /// Returns spdk env
+    pub fn rocksdb_create_spdk_env(
+        dir: &str,
+        conf: &str,
+        bdev: &str,
+        cache_size_in_mb: u64,
+    ) -> Result<Self, Error> {
+        let c_dir = CString::new(dir).expect("Fail to create c_dir");
+        let c_conf = CString::new(conf).expect("Fail to create c_conf");
+        let c_bdev = CString::new(bdev).expect("Fail to create c_bdev");
+        let env = unsafe {
+            ffi::rocksdb_create_spdk_env(
+                c_dir.as_ptr(),
+                c_conf.as_ptr(),
+                c_bdev.as_ptr(),
+                cache_size_in_mb,
+            )
+        };
+        if env.is_null() {
+            Err(Error::new("Could not create spdk env".to_owned()))
+        } else {
+            Ok(Self(Arc::new(EnvWrapper { inner: env })))
+        }
+    }
+
+    /// Use exist spdk environment
+    pub fn rocksdb_use_spdk_env(
+        fs: *mut c_void,
+        lcore: u32,
+        dir: &str,
+        conf: &str,
+        bdev: &str,
+        cache_size_in_mb: u64,
+    ) -> Result<Self, Error> {
+        let c_dir = CString::new(dir).expect("Fail to create c_dir");
+        let c_conf = CString::new(conf).expect("Fail to create c_conf");
+        let c_bdev = CString::new(bdev).expect("Fail to create c_bdev");
+        let env = unsafe {
+            ffi::rocksdb_use_spdk_env(
+                fs,
+                lcore,
+                c_dir.as_ptr(),
+                c_conf.as_ptr(),
+                c_bdev.as_ptr(),
+                cache_size_in_mb,
+            )
+        };
+        if env.is_null() {
+            Err(Error::new("Could not use spdk env".to_owned()))
+        } else {
+            Ok(Self(Arc::new(EnvWrapper { inner: env })))
+        }
+    }
+    
     /// Returns a new environment that stores its data in memory and delegates
     /// all non-file-storage tasks to base_env.
     pub fn mem_env() -> Result<Self, Error> {
