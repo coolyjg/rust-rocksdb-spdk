@@ -170,7 +170,7 @@ impl Env {
             Ok(Self(Arc::new(EnvWrapper { inner: env })))
         }
     }
-    
+
     /// Returns a new environment that stores its data in memory and delegates
     /// all non-file-storage tasks to base_env.
     pub fn mem_env() -> Result<Self, Error> {
