@@ -16,8 +16,8 @@ exclude = [
     "test/**/*",
 ]
 
-# [workspace]
-# members = ["librocksdb-sys"]
+[workspace]
+members = ["librocksdb-sys"]
 
 [features]
 default = ["snappy", "lz4", "zstd", "zlib", "bzip2"]
