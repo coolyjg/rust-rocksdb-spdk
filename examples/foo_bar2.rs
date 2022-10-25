@@ -23,8 +23,6 @@ fn main() {
     opts.set_env(&env);
     let path = "spdk_integration_test_dir";
     let db = DB::open(&opts, path).expect("fail to open db");
-    db.put(b"foo", b"bar").expect("fail to put");
-    println!("put succeed!");
     match db.get(b"foo") {
         Ok(Some(res)) => {
             println!("got value {:?} succeed!", String::from_utf8(res).unwrap());
