@@ -118,6 +118,7 @@ impl Env {
     }
 
     /// Returns spdk env
+    #[cfg(feature = "spdk")]
     pub fn rocksdb_create_spdk_env(
         dir: &str,
         conf: &str,
@@ -143,6 +144,7 @@ impl Env {
     }
 
     /// Use exist spdk environment
+    #[cfg(feature = "spdk")]
     pub fn rocksdb_use_spdk_env(
         fs: *mut c_void,
         lcore: u32,

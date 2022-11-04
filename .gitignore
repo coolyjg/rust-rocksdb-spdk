@@ -9,3 +9,4 @@ path
 .DS_Store
 .idea
 spdk_integration_test_dir
+.vscode
