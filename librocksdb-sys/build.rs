@@ -34,9 +34,9 @@ fn rocksdb_include_dir() -> String {
 }
 
 fn bindgen_rocksdb() {
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let src = env::current_dir().unwrap().join("spdk");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let ignored_macros = IgnoreMacros(
         vec![
             "FP_INFINITE".into(),
@@ -50,17 +50,17 @@ fn bindgen_rocksdb() {
         .collect(),
     );
 
-    #[cfg(not(feature = "spdk"))]
-    let bindings = bindgen::Builder::default()
-        .header(rocksdb_include_dir() + "/rocksdb/c.h")
-        .derive_debug(false)
-        .blocklist_type("max_align_t")
-        .ctypes_prefix("libc")
-        .size_t_is_usize(true)
-        .generate()
-        .expect("unable to generate rocksdb bindings");
+    // #[cfg(not(feature = "spdk"))]
+    // let bindings = bindgen::Builder::default()
+    //     .header(rocksdb_include_dir() + "/rocksdb/c.h")
+    //     .derive_debug(false)
+    //     .blocklist_type("max_align_t")
+    //     .ctypes_prefix("libc")
+    //     .size_t_is_usize(true)
+    //     .generate()
+    //     .expect("unable to generate rocksdb bindings");
 
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let bindings = bindgen::Builder::default()
         .clang_arg(format!("-I{}", src.join("build/include").display()))
         .header(rocksdb_include_dir() + "/rocksdb/c.h")
@@ -99,7 +99,7 @@ fn build_rocksdb() {
     config.include("rocksdb/include/");
     config.include("rocksdb/");
     config.include("rocksdb/third-party/gtest-1.8.1/fused-src/");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     config.include("spdk/build/include");
 
     if cfg!(feature = "snappy") {
@@ -142,16 +142,16 @@ fn build_rocksdb() {
     config.include(".");
     config.define("NDEBUG", Some("1"));
 
-    #[cfg(not(feature = "spdk"))]
-    let mut lib_sources = include_str!("rocksdb_lib_sources.txt")
-        .trim()
-        .split('\n')
-        .map(str::trim)
-        // We have a pre-generated a version of build_version.cc in the local directory
-        .filter(|file| !matches!(*file, "util/build_version.cc"))
-        .collect::<Vec<&'static str>>();
+    // #[cfg(not(feature = "spdk"))]
+    // let mut lib_sources = include_str!("rocksdb_lib_sources.txt")
+    //     .trim()
+    //     .split('\n')
+    //     .map(str::trim)
+    //     // We have a pre-generated a version of build_version.cc in the local directory
+    //     .filter(|file| !matches!(*file, "util/build_version.cc"))
+    //     .collect::<Vec<&'static str>>();
 
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let mut lib_sources = include_str!("rocksdb_lib_sources_spdk.txt")
         .trim()
         .split('\n')
@@ -392,7 +392,7 @@ fn update_submodules() {
     }
 }
 
-#[cfg(feature = "spdk")]
+// #[cfg(feature = "spdk")]
 fn build_spdk() {
     let src = env::current_dir().unwrap().join("spdk");
     let dst = PathBuf::from(env::var("OUT_DIR").unwrap()).join("libspdk_fat.so");
@@ -467,34 +467,34 @@ fn build_spdk() {
 }
 
 fn main() {
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     build_spdk();
 
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=spdk_fat");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=aio");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=numa");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=uuid");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=crypto");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=stdc++");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rustc-link-lib=ssl");
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!(
         "cargo:rustc-link-search=native={}",
         env::var("OUT_DIR").unwrap()
     );
 
     // Tell cargo to invalidate the built crate whenever the wrapper changes
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     println!("cargo:rerun-if-changed=wrapper.h");
 
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let ignored_macros = IgnoreMacros(
         vec![
             "FP_INFINITE".into(),
@@ -508,13 +508,13 @@ fn main() {
         .collect(),
     );
 
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let src = env::current_dir().unwrap().join("spdk");
 
     // The bindgen::Builder is the main entry point
     // to bindgen, and lets you build up options for
     // the resulting bindings.
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let bindings = bindgen::Builder::default()
         .clang_arg(format!("-I{}", src.join("build/include").display()))
         // The input header we would like to generate bindings for.
@@ -542,9 +542,9 @@ fn main() {
         .expect("Unable to generate bindings");
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
-    #[cfg(feature = "spdk")]
+    // #[cfg(feature = "spdk")]
     bindings
         .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
@@ -583,11 +583,11 @@ fn main() {
     println!("cargo:out_dir={}", env::var("OUT_DIR").unwrap());
 }
 
-#[cfg(feature = "spdk")]
+// #[cfg(feature = "spdk")]
 #[derive(Debug)]
 struct IgnoreMacros(HashSet<String>);
 
-#[cfg(feature = "spdk")]
+// #[cfg(feature = "spdk")]
 impl bindgen::callbacks::ParseCallbacks for IgnoreMacros {
     fn will_parse_macro(&self, name: &str) -> bindgen::callbacks::MacroParsingBehavior {
         if self.0.contains(name) {

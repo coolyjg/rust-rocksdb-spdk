@@ -36,14 +36,14 @@ spdk = []
 
 [dependencies]
 libc = "0.2"
-# librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0" }
+librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0" }
 serde = { version = "1", features = [ "derive" ], optional = true }
 
-[target.'cfg(not(spdk))'.dependencies]
-librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0", features = ["default"]}
+# [target.'cfg(not(spdk))'.dependencies]
+# librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0", features = ["default"]}
 
-[target.'cfg(spdk)'.dependencies]
-librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0", features = ["spdk"]}
+# [target.'cfg(spdk)'.dependencies]
+# librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0", features = ["spdk"]}
 
 [dev-dependencies]
 trybuild = "1.0"
