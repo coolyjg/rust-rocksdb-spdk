@@ -131,7 +131,11 @@ pub use crate::{
     write_batch::{WriteBatch, WriteBatchIterator, WriteBatchWithTransaction},
 };
 
+#[cfg(not(feature = "spdk"))]
 use librocksdb_sys as ffi;
+
+#[cfg(feature = "spdk")]
+use librocksdb_sys_spdk as ffi;
 
 use std::error;
 use std::fmt;

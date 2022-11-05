@@ -1,3 +1,17 @@
 [submodule "rocksdb_sys/snappy"]
 	path = librocksdb-sys/snappy
 	url = https://github.com/google/snappy.git
+[submodule "librocksdb-sys-spdk/spdk"]
+	path = librocksdb-sys-spdk/spdk
+	url = https://github.com/coolyjg/spdk
+	branch = 7.4.5-integration
+[submodule "librocksdb-sys-spdk/snappy"]
+	path = librocksdb-sys-spdk/snappy
+	url = https://github.com/google/snappy.git
+[submodule "librocksdb-sys/rocksdb"]
+	path = librocksdb-sys/rocksdb
+	url = https://github.com/facebook/rocksdb.git
+[submodule "librocksdb-sys-spdk/rocksdb"]
+	path = librocksdb-sys-spdk/rocksdb
+	url = https://github.com/coolyjg/rocksdb
+	branch = spdk22.05
