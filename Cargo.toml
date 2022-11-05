@@ -20,7 +20,7 @@ exclude = [
 members = ["librocksdb-sys", "librocksdb-sys-spdk"]
 
 [features]
-default = ["snappy", "lz4", "zstd", "zlib", "bzip2"]
+default = ["snappy", "lz4", "zstd", "zlib", "bzip2", "normal"]
 jemalloc = ["librocksdb-sys/jemalloc"]
 io-uring = ["librocksdb-sys/io-uring"]
 valgrind = []
@@ -32,18 +32,20 @@ bzip2 = ["librocksdb-sys/bzip2"]
 rtti = ["librocksdb-sys/rtti"]
 multi-threaded-cf = []
 serde1 = ["serde"]
-spdk = []
+spdk = ["librocksdb-sys-spdk"]
+normal = ["librocksdb-sys"]
 
 [dependencies]
 libc = "0.2"
-# librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0" }
+librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0", optional = true}
+librocksdb-sys-spdk = { path = "librocksdb-sys-spdk", version = "0.1.0", optional = true}
 serde = { version = "1", features = [ "derive" ], optional = true }
 
-[target.'cfg(not(spdk))'.dependencies]
-librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0"}
+# [target.'cfg(not(spdk))'.dependencies]
+# librocksdb-sys = { path = "librocksdb-sys", version = "0.8.0"}
 
-[target.'cfg(spdk)'.dependencies]
-librocksdb-sys-spdk = { path = "librocksdb-sys-spdk", version = "0.1.0"}
+# [target.'cfg(spdk)'.dependencies]
+# librocksdb-sys-spdk = { path = "librocksdb-sys-spdk", version = "0.1.0"}
 
 [dev-dependencies]
 trybuild = "1.0"
